@@ -1,5 +1,6 @@
 use std::ops::{Add, Sub};
 use approx::assert_relative_eq;
+use std::cmp::{PartialEq};
 
 #[derive(Copy, Clone)]
 pub struct Vec3(pub f64, pub f64, pub f64);
@@ -23,6 +24,13 @@ impl Sub<Vec3> for Vec3 {
 
     fn sub(self, rhs: Vec3) -> Vec3 {
         Vec3(self.0-rhs.0, self.1-rhs.1, self.2-rhs.2)
+    }
+}
+
+// Comparison (==)
+impl PartialEq<Vec3> for Vec3 {
+    fn eq(&self, rhs: &Vec3) -> bool {
+        relative_eq!(self.0, rhs.0) && relative_eq!(self.1, rhs.1) && relative_eq!(self.2, rhs.2)
     }
 }
 
