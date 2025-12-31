@@ -1,8 +1,8 @@
-use std::ops::{Add, Sub};
-use approx::assert_relative_eq;
+use std::ops::{Add, Sub, Mul};
 use std::cmp::{PartialEq};
+use approx::{relative_eq, assert_relative_eq};
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Vec3(pub f64, pub f64, pub f64);
 
 impl Vec3 {
@@ -11,6 +11,7 @@ impl Vec3 {
     }
 }
 
+// Addition (+)
 impl Add<Vec3> for Vec3 {
     type Output = Vec3;
 
@@ -19,6 +20,7 @@ impl Add<Vec3> for Vec3 {
     }
 }
 
+// Subtraction (-)
 impl Sub<Vec3> for Vec3 {
     type Output = Vec3;
 
@@ -38,6 +40,7 @@ impl PartialEq<Vec3> for Vec3 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::assert_vec3_eq;
 
     #[test]
     fn test_indexing() {
@@ -56,15 +59,12 @@ mod tests {
         let v1 = Vec3(0.0, 0.0, 0.0);
         let v2 = Vec3(1.0, 2.0, 3.0);
         let v3 = Vec3(3.7, -0.8, -1.5);
-        assert_relative_eq!((v1+v2).0, 1.0);
-        assert_relative_eq!((v1+v2).1, 2.0);
-        assert_relative_eq!((v1+v2).2, 3.0);
-        assert_relative_eq!((v1+v3).0, 3.7);
-        assert_relative_eq!((v1+v3).1, -0.8);
-        assert_relative_eq!((v1+v3).2, -1.5);
-        assert_relative_eq!((v2+v3).0, 4.7);
-        assert_relative_eq!((v2+v3).1, 1.2);
-        assert_relative_eq!((v2+v3).2, 1.5);
+        assert_vec3_eq!(v1 + v2, Vec3(1.0, 2.0, 3.0));
+        assert_vec3_eq!(v1 + v3, Vec3(3.7, -0.8, -1.5));
+        assert_vec3_eq!(v2 + v3, Vec3(4.7, 1.2, 1.5));
+        assert_vec3_eq!(v1 + v2, v2 + v1);
+        assert_vec3_eq!(v1 + v3, v3 + v1);
+        assert_vec3_eq!(v2 + v3, v3 + v2);
     }
 
     #[test]
@@ -72,14 +72,9 @@ mod tests {
         let v1 = Vec3(0.0, 0.0, 0.0);
         let v2 = Vec3(1.0, 2.0, 3.0);
         let v3 = Vec3(3.7, -0.8, -1.5);
-        assert_relative_eq!((v2-v1).0, 1.0);
-        assert_relative_eq!((v2-v1).1, 2.0);
-        assert_relative_eq!((v2-v1).2, 3.0);
-        assert_relative_eq!((v1-v3).0, -3.7);
-        assert_relative_eq!((v1-v3).1, 0.8);
-        assert_relative_eq!((v1-v3).2, 1.5);
-        assert_relative_eq!((v2-v3).0, -2.7);
-        assert_relative_eq!((v2-v3).1, 2.8);
-        assert_relative_eq!((v2-v3).2, 4.5);
+        assert_vec3_eq!(v2 - v1, Vec3(1.0, 2.0, 3.0));
+        assert_vec3_eq!(v1 - v3, Vec3(-3.7, 0.8, 1.5));
+        assert_vec3_eq!(v2 - v3, Vec3(-2.7, 2.8, 4.5));
+    }
     }
 }
