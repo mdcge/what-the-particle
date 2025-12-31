@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub, Mul};
+use std::ops::{Add, Sub, Mul, Div};
 use std::cmp::{PartialEq};
 use approx::{relative_eq, assert_relative_eq};
 
@@ -46,12 +46,22 @@ impl Mul<Vec3> for f64 {
     }
 }
 
+// Division (/)
+impl Div<f64> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, rhs: f64) -> Vec3 {
+        Vec3(self.0/rhs, self.1/rhs, self.2/rhs)
+    }
+}
+
 // Comparison (==)
 impl PartialEq<Vec3> for Vec3 {
     fn eq(&self, rhs: &Vec3) -> bool {
         relative_eq!(self.0, rhs.0) && relative_eq!(self.1, rhs.1) && relative_eq!(self.2, rhs.2)
     }
 }
+
 
 // Tests
 #[cfg(test)]
@@ -113,5 +123,24 @@ mod tests {
         assert_vec3_eq!(v3 * f1, f1 * v3);
         assert_vec3_eq!(v3 * f2, f2 * v3);
         assert_vec3_eq!(v3 * f3, f3 * v3);
+    }
+
+    #[test]
+    fn test_div() {
+        let v1 = Vec3(0.0, 1.0, 2.0);
+        let v2 = Vec3(1.6, 7.5, 3.2);
+        let v3 = Vec3(-4.2, -6.6, 0.5);
+        let f1 = 1.0;
+        let f2 = -2.0;
+        let f3 = 3.2;
+        assert_vec3_eq!(v1 / f1, Vec3(0.0, 1.0, 2.0));
+        assert_vec3_eq!(v2 / f1, Vec3(1.6, 7.5, 3.2));
+        assert_vec3_eq!(v3 / f1, Vec3(-4.2, -6.6, 0.5));
+        assert_vec3_eq!(v1 / f2, Vec3(0.0, -0.5, -1.0));
+        assert_vec3_eq!(v2 / f2, Vec3(-0.8, -3.75, -1.6));
+        assert_vec3_eq!(v3 / f2, Vec3(2.1, 3.3, -0.25));
+        assert_vec3_eq!(v1 / f3, Vec3(0.0, 0.3125, 0.625));
+        assert_vec3_eq!(v2 / f3, Vec3(0.5, 2.34375, 1.0));
+        assert_vec3_eq!(v3 / f3, Vec3(-1.3125, -2.0625, 0.15625));
     }
 }
