@@ -89,7 +89,7 @@ mod tests {
     use crate::assert_vec3_eq;
 
     #[test]
-    fn test_indexing() {
+    fn test_vec3_indexing() {
         let v1 = Vec3(1.0, 2.0, 3.0);
         let v2 = Vec3(5.5, 3.2, 4.5);
         assert_relative_eq!(v1.0, 1.0);
@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn test_add() {
+    fn test_vec3_add() {
         let v1 = Vec3(0.0, 0.0, 0.0);
         let v2 = Vec3(1.0, 2.0, 3.0);
         let v3 = Vec3(3.7, -0.8, -1.5);
@@ -114,7 +114,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sub() {
+    fn test_vec3_sub() {
         let v1 = Vec3(0.0, 0.0, 0.0);
         let v2 = Vec3(1.0, 2.0, 3.0);
         let v3 = Vec3(3.7, -0.8, -1.5);
@@ -124,7 +124,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mul() {
+    fn test_vec3_mul() {
         let v1 = Vec3(0.0, 1.0, 2.0);
         let v2 = Vec3(5.2, 3.1, 4.7);
         let v3 = Vec3(-0.9, 7.2, -2.3);
@@ -145,7 +145,7 @@ mod tests {
     }
 
     #[test]
-    fn test_div() {
+    fn test_vec3_div() {
         let v1 = Vec3(0.0, 1.0, 2.0);
         let v2 = Vec3(1.6, 7.5, 3.2);
         let v3 = Vec3(-4.2, -6.6, 0.5);
@@ -164,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    fn test_neg() {
+    fn test_vec3_neg() {
         let v1 = Vec3(0.0, 0.0, 0.0);
         let v2 = Vec3(5.2, 4.6, 1.1);
         let v3 = Vec3(-7.8, 5.6, -1.3);
@@ -177,7 +177,7 @@ mod tests {
     }
 
     #[test]
-    fn test_dot_product() {
+    fn test_vec3_dot_product() {
         let v1 = Vec3(0.0, 1.0, 2.0);
         let v2 = Vec3(5.0, 3.0, 1.0);
         let v3 = Vec3(4.4, -6.5, 1.2);
@@ -193,7 +193,7 @@ mod tests {
     }
 
     #[test]
-    fn test_cross_product() {
+    fn test_vec3_cross_product() {
         let v1 = Vec3(0.0, 1.0, 2.0);
         let v2 = Vec3(5.3, -1.3, 8.8);
         let v3 = Vec3(-2.1, -5.3, 0.7);
