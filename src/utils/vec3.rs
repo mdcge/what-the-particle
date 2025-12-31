@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub, Mul, Div};
+use std::ops::{Add, Sub, Mul, Div, Neg};
 use std::cmp::{PartialEq};
 use approx::{relative_eq, assert_relative_eq};
 
@@ -52,6 +52,15 @@ impl Div<f64> for Vec3 {
 
     fn div(self, rhs: f64) -> Vec3 {
         Vec3(self.0/rhs, self.1/rhs, self.2/rhs)
+    }
+}
+
+// Negation (-)
+impl Neg for Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Vec3 {
+        Vec3(-self.0, -self.1, -self.2)
     }
 }
 
@@ -142,5 +151,18 @@ mod tests {
         assert_vec3_eq!(v1 / f3, Vec3(0.0, 0.3125, 0.625));
         assert_vec3_eq!(v2 / f3, Vec3(0.5, 2.34375, 1.0));
         assert_vec3_eq!(v3 / f3, Vec3(-1.3125, -2.0625, 0.15625));
+    }
+
+    #[test]
+    fn test_neg() {
+        let v1 = Vec3(0.0, 0.0, 0.0);
+        let v2 = Vec3(5.2, 4.6, 1.1);
+        let v3 = Vec3(-7.8, 5.6, -1.3);
+        assert_vec3_eq!(-v1, v1);
+        assert_vec3_eq!(-v2, Vec3(-5.2, -4.6, -1.1));
+        assert_vec3_eq!(-v3, Vec3(7.8, -5.6, 1.3));
+        assert_vec3_eq!(-(-v1), v1);
+        assert_vec3_eq!(-(-v2), v2);
+        assert_vec3_eq!(-(-v3), v3);
     }
 }
