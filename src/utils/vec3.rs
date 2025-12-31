@@ -13,6 +13,12 @@ impl Vec3 {
     pub fn dot(self, rhs: Vec3) -> f64 {
         self.0*rhs.0 + self.1*rhs.1 + self.2*rhs.2
     }
+
+    pub fn cross(self, rhs: Vec3) -> Vec3 {
+        Vec3(self.1*rhs.2 - self.2*rhs.1,
+             self.2*rhs.0 - self.0*rhs.2,
+             self.0*rhs.1 - self.1*rhs.0)
+    }
 }
 
 // Addition (+)
@@ -184,5 +190,21 @@ mod tests {
         assert_relative_eq!(v1.dot(v1), v1.dot(v1));
         assert_relative_eq!(v2.dot(v2), v2.dot(v2));
         assert_relative_eq!(v3.dot(v3), v3.dot(v3));
+    }
+
+    #[test]
+    fn test_cross_product() {
+        let v1 = Vec3(0.0, 1.0, 2.0);
+        let v2 = Vec3(5.3, -1.3, 8.8);
+        let v3 = Vec3(-2.1, -5.3, 0.7);
+        assert_vec3_eq!(v1.cross(v2), Vec3(11.4, 10.6, -5.3));
+        assert_vec3_eq!(v1.cross(v3), Vec3(11.3, -4.2, 2.1));
+        assert_vec3_eq!(v2.cross(v3), Vec3(45.73, -22.19, -30.82));
+        assert_vec3_eq!(v1.cross(v1), Vec3(0.0, 0.0, 0.0));
+        assert_vec3_eq!(v2.cross(v2), Vec3(0.0, 0.0, 0.0));
+        assert_vec3_eq!(v3.cross(v3), Vec3(0.0, 0.0, 0.0));
+        assert_vec3_eq!(v1.cross(v2), -v2.cross(v1));
+        assert_vec3_eq!(v1.cross(v3), -v3.cross(v1));
+        assert_vec3_eq!(v2.cross(v3), -v3.cross(v2));
     }
 }
