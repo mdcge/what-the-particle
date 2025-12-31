@@ -9,6 +9,10 @@ impl Vec3 {
     pub fn new(x: f64, y: f64, z: f64) -> Self {
         Vec3(x, y, z)
     }
+
+    pub fn dot(self, rhs: Vec3) -> f64 {
+        self.0*rhs.0 + self.1*rhs.1 + self.2*rhs.2
+    }
 }
 
 // Addition (+)
@@ -164,5 +168,21 @@ mod tests {
         assert_vec3_eq!(-(-v1), v1);
         assert_vec3_eq!(-(-v2), v2);
         assert_vec3_eq!(-(-v3), v3);
+    }
+
+    #[test]
+    fn test_dot_product() {
+        let v1 = Vec3(0.0, 1.0, 2.0);
+        let v2 = Vec3(5.0, 3.0, 1.0);
+        let v3 = Vec3(4.4, -6.5, 1.2);
+        assert_relative_eq!(v1.dot(v2), 5.0);
+        assert_relative_eq!(v1.dot(v3), -4.1);
+        assert_relative_eq!(v2.dot(v3), 3.7);
+        assert_relative_eq!(v1.dot(v2), v2.dot(v1));
+        assert_relative_eq!(v1.dot(v3), v3.dot(v1));
+        assert_relative_eq!(v2.dot(v3), v3.dot(v2));
+        assert_relative_eq!(v1.dot(v1), v1.dot(v1));
+        assert_relative_eq!(v2.dot(v2), v2.dot(v2));
+        assert_relative_eq!(v3.dot(v3), v3.dot(v3));
     }
 }
