@@ -2,8 +2,8 @@
 
 This project is comprised of two main components:
 
-1. Mount Charles, a custom GEANT4-style particle propagation simulation.
-2. What The Particle?!, an interactive guessing game which uses Mount Charles.
+1. **Mount Charles**, a custom GEANT4-style particle propagation simulation.
+2. **What The Particle?!**, an interactive guessing game which uses Mount Charles.
 
 This project was originally created as an outreach tool for the LiquidO experiment, and was partly inspired by the Zooniverse's [Name That Neutrino](https://www.zooniverse.org/projects/icecubeobservatory/name-that-neutrino) project.
 
@@ -11,8 +11,10 @@ Mount Charles is written in pure Rust, while the game renders the results of the
 
 ## Mount Charles
 
-### Basics
-Mirroring GEANT4, the simulation uses millimetres (mm), nanoseconds (ns) and mega-electronvolts (MeV) as the base units for length, time and mass/energy/momentum respectively (using natural units).
+### Conventions
+Mirroring GEANT4, the simulation uses millimetres (mm), nanoseconds (ns) and mega-electronvolts (MeV) as the base units for length, time and energy respectively.
+
+Natural units are used for all the electronvolt-related quantities, so the units of mass, energy and momentum are all MeV. 
 
 ### Structure
 
@@ -28,12 +30,21 @@ The simulation volume is a cube centred on the origin and characterized by a sin
 
 #### Particle
 A particle is made of two components:
-1. Particle type: currently one of $e^-$, $\mu^-$ and $\gamma$.
+1. Particle type: currently one of electron ($e^-$), muon ($\mu^-$) or gamma ($\gamma$).
 2. Particle state: this describes the particle's properties, namely
    1. Position: the 3D position of the particle (mm).
    2. Momentum: the momentum of the particle (MeV).
    3. Mass: the mass of the particle (MeV).
    4. Alive: whether the particle is considered "alive" or not, i.e. whether it is still being simulated.
+   
+### Physics processes
+
+#### Propagation
+For every time step, every active particle in the simulation is propagated with the simple formula
+
+$$\vec{r} \text{+=} \hat{p}\cdot\beta\cdot c\cdot \Delta t$$
+
+where $\vec{r}$ is the particle position, $\hat{p}$ its normalized momentum vector, $\beta$ the speed parameter of the particle ($v/c$), $c$ the speed of light (in appropriate units, mm/ns) and $\Delta t$ the time step (in ns).
 
 ## Development
 
