@@ -1,0 +1,41 @@
+use crate::particle::particle::Particle;
+use crate::geometry::volume::Volume;
+
+pub struct World {
+    time: f64,  // world time (ns)
+    dt: f64,    // time step (ns)
+    particles: Vec<Particle>,
+    volume: Volume,
+}
+
+impl World {
+    pub fn new(particle_list: Vec<Particle>, vol: Volume, timestep: f64) -> Self {
+        World { time: 0.0, dt: timestep, particles: particle_list, volume: vol }
+    }
+}
+
+
+// Tests
+#[cfg(test)]
+mod tests{
+    use super::*;
+    use crate::particle::particle::ParticleType;
+    use crate::utils::vec3::Vec3;
+
+    #[test]
+    fn test_world_creation() {
+        let v1 = Volume::new(10.0);
+        let v2 = Volume::new(28.4);
+        let p1 = Particle::new(Vec3(1.0, 2.0, -3.0), Vec3(5.0, 0.0, 0.0), ParticleType::Electron);
+        let p2 = Particle::new(Vec3(4.2, -1.5, 5.1), Vec3(3.4, -2.0, 0.7), ParticleType::Muon);
+        let p3 = Particle::new(Vec3(20.1, -10.3, -9.7), Vec3(-100.0, 0.0, -52.1), ParticleType::Gamma);
+        let w1 = World::new(vec![p1.clone(), p2.clone(), p3.clone()], v1.clone(), 0.1);
+        let w2 = World::new(vec![p1.clone(), p3.clone()], v2.clone(), 0.01);
+        let w3 = World::new(vec![p2], v2, 0.005);
+        let w4 = World::new(vec![], v1, 1.0);
+        assert_eq!(w1.particles.len(), 3);
+        assert_eq!(w2.particles.len(), 2);
+        assert_eq!(w3.particles.len(), 1);
+        assert_eq!(w4.particles.len(), 0);
+    }
+}
