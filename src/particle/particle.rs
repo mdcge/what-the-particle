@@ -58,7 +58,6 @@ mod tests {
     use super::*;
     use crate::assert_vec3_eq;
     use approx::assert_relative_eq;
-    use crate::geometry::volume::Volume;
 
     #[test]
     fn test_particlestate_creation() {
@@ -109,8 +108,6 @@ mod tests {
         let mut electron1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(1.0, 0.0, 0.0), ParticleType::Electron);
         let mut muon1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 1.0, 0.0), ParticleType::Muon);
         let mut gamma1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 0.0, 1.0), ParticleType::Gamma);
-
-        let volume = Volume::new(10.0);
 
         electron1.propagate(1.0);
         assert_vec3_eq!(electron1.state.r, Vec3(266.9576214377587, 0.0, 0.0));
