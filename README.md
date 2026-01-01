@@ -20,7 +20,7 @@ Mirroring GEANT4, the simulation uses millimetres (mm), nanoseconds (ns) and meg
 The top-level object in the simulation is the world. This stores:
 1. Global time: the absolute time of the simulation, which starts at 0ns when the particle(s) is produced.
 2. Time step: the time step used in the simulation. Each simulation step will advance the global time by this time step.
-3. List of particles: a list of all the particles in the event. These are kept in the list even when they are no longer being propagated (due to exiting the volume, decaying, etc.).
+3. List of particles: a list of all the particles in the event. These are kept in the list even when they are no longer being simulated (due to exiting the volume, decaying, etc.).
 4. Volume: the simulation volume in which the particles are contained. The particles are killed upon exiting this volume.
 
 #### Volume
@@ -28,7 +28,7 @@ The simulation volume is a cube centred on the origin and characterized by a sin
 
 #### Particle
 A particle is made of two components:
-1. Particle type: currently one of $e^-$, $mu^-$ and $\gamma$.
+1. Particle type: currently one of $e^-$, $\mu^-$ and $\gamma$.
 2. Particle state: this describes the particle's properties, namely
    1. Position: the 3D position of the particle (mm).
    2. Momentum: the momentum of the particle (MeV).
