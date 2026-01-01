@@ -61,6 +61,7 @@
                 pkgs.bacon          # Background rust code checker
                 pkgs.just           # Command runner
                 pkgs.wasm-pack      # Rust -> WASM package builder
+                pkgs.wasm-bindgen-cli_0_2_100
                 pkgs.nodejs_24      # JavaScript
               ];
 
