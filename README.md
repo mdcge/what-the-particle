@@ -26,7 +26,7 @@ The top-level object in the simulation is the world. This stores:
 4. Volume: the simulation volume in which the particles are contained. The particles are killed upon exiting this volume.
 
 #### Volume
-The simulation volume is a cube centred on the origin and characterized by a single `size` parameter: this corresponds to the edge length of the simulation cube. Particle interaction and propagation is only calculated inside this volume.
+The simulation volume is a cube centred on the origin and characterized by a single `size` parameter: this corresponds to the edge length of the simulation cube. Particle [interaction](#interactions) and [propagation](#propagation) is only calculated inside this volume.
 
 #### Particle
 A particle is made of two components:
@@ -45,6 +45,11 @@ For every time step, every active particle in the simulation is propagated with 
 $$\vec{r} \text{+=} \hat{p}\cdot\beta\cdot c\cdot \Delta t$$
 
 where $\vec{r}$ is the particle position, $\hat{p}$ its normalized momentum vector, $\beta$ the speed parameter of the particle ($v/c$), $c$ the speed of light (in appropriate units, mm/ns) and $\Delta t$ the time step (in ns).
+
+#### Interactions
+As this is a very simple particle simulator, only the dominant interaction for each particle type is implemented.
+
+##### Electron
 
 ## Development
 
