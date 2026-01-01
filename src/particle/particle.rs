@@ -1,7 +1,7 @@
 use crate::utils::vec3::Vec3;
 
 // Particle state
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ParticleState {
     pub r: Vec3,  // position (MeV)
     pub p: Vec3,  // momentum (MeV)
@@ -16,6 +16,7 @@ impl ParticleState {
 }
 
 // Particle type
+#[derive(Clone)]
 pub enum ParticleType {
     Electron,
     Muon,
@@ -23,6 +24,7 @@ pub enum ParticleType {
 }
 
 // Particle
+#[derive(Clone)]
 pub struct Particle {
     pub species: ParticleType,
     pub state: ParticleState,
