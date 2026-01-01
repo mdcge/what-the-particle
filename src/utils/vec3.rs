@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub, Mul, Div, Neg};
+use std::ops::{Add, AddAssign, Sub, Mul, Div, Neg};
 use std::cmp::{PartialEq};
 use approx::relative_eq;
 
@@ -39,6 +39,14 @@ impl Add<Vec3> for Vec3 {
 
     fn add(self, rhs: Vec3) -> Vec3 {
         Vec3(self.0+rhs.0, self.1+rhs.1, self.2+rhs.2)
+    }
+}
+
+impl AddAssign<Vec3> for Vec3 {
+    fn add_assign(&mut self, rhs: Vec3) {
+        self.0 = self.0 + rhs.0;
+        self.1 = self.1 + rhs.1;
+        self.2 = self.2 + rhs.2;
     }
 }
 
@@ -124,6 +132,19 @@ mod tests {
         assert_vec3_eq!(v1 + v2, v2 + v1);
         assert_vec3_eq!(v1 + v3, v3 + v1);
         assert_vec3_eq!(v2 + v3, v3 + v2);
+    }
+
+    #[test]
+    fn test_vec3_add_assign() {
+        let mut v1 = Vec3(0.0, 0.0, 0.0);
+        let mut v2 = Vec3(1.0, 2.0, 3.0);
+        let v3 = Vec3(3.7, -0.8, -1.5);
+        v2 += v1;
+        v1 += v2;
+        v2 += v3;
+        assert_vec3_eq!(v1, Vec3(1.0, 2.0, 3.0));
+        assert_vec3_eq!(v2, Vec3(4.7, 1.2, 1.5));
+        assert_vec3_eq!(v3, Vec3(3.7, -0.8, -1.5));
     }
 
     #[test]
