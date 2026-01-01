@@ -22,3 +22,8 @@ wasm-pack build --target web -m no-install
 ```
 (note that the installed `wasm-bindgen` and the cargo `wasm-bindgen` versions must match exactly).
 
+This creates a `pkg/` which contains a `mount_charles.js` file. This can be imported in JS:
+``` zsh
+import init, { WASMWorld } from "./pkg/mount_charles.js";
+```
+in order to use the functions exposed by the API.
