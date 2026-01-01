@@ -32,4 +32,11 @@ impl WASMWorld {
         };
         self.world.particles.push(particle);
     }
+
+    // Get particle position
+    // This is a temporary function for quick testing in JS
+    pub fn get_particle_position(&self) -> Vec<f64> {
+        let p = &self.world.particles[0];
+        vec![p.state.r.0, p.state.r.1, p.state.r.2]
+    }
 }
