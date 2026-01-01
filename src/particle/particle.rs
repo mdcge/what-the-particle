@@ -1,5 +1,6 @@
 use crate::utils::vec3::Vec3;
 
+// Particle state
 #[derive(Debug)]
 pub struct ParticleState {
     pub r: Vec3,  // position (MeV)
@@ -14,6 +15,12 @@ impl ParticleState {
     }
 }
 
+// Particle type
+pub enum ParticleType {
+    Electron,
+    Muon,
+    Gamma,
+}
 
 // Tests
 #[cfg(test)]
@@ -39,4 +46,14 @@ mod tests {
         assert_relative_eq!(ps2.m, m2);
         assert_eq!(ps2.alive, true);
     }
+
+    #[test]
+    fn test_particletype_creation() {
+        let _pt1 = ParticleType::Electron;
+        let _pt2 = ParticleType::Muon;
+        let _pt3 = ParticleType::Gamma;
+    }
+
+    #[test]
+    fn
 }
