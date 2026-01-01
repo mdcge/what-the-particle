@@ -3,9 +3,9 @@ use crate::geometry::volume::Volume;
 
 pub struct World {
     time: f64,  // world time (ns)
-    dt: f64,    // time step (ns)
-    particles: Vec<Particle>,
-    volume: Volume,
+    pub dt: f64,    // time step (ns)
+    pub particles: Vec<Particle>,
+    pub volume: Volume,
 }
 
 impl World {

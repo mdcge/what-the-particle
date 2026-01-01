@@ -1,9 +1,12 @@
 use crate::utils::vec3::Vec3;
+use crate::sim::world::World;
+use crate::utils::constants::C;
+use crate::utils::physics::beta;
 
 // Particle state
 #[derive(Debug, Clone)]
 pub struct ParticleState {
-    pub r: Vec3,  // position (MeV)
+    pub r: Vec3,  // position (mm)
     pub p: Vec3,  // momentum (MeV)
     pub m: f64,   // mass (MeV)
     pub alive: bool,
@@ -41,6 +44,12 @@ impl Particle {
 
         Particle { species: part_type, state: particle_state }
     }
+
+    pub fn propagate(&mut self, world: &World) {
+        let dir = self.state.p.norm();
+        let beta = beta(&self);
+        self.state.r += dir * beta * C * world.dt;  // dir[1] * beta[1] * C[mm/ns] * dt[ns]
+    }
 }
 
 
@@ -50,6 +59,7 @@ mod tests {
     use super::*;
     use crate::assert_vec3_eq;
     use approx::assert_relative_eq;
+    use crate::geometry::volume::Volume;
 
     #[test]
     fn test_particlestate_creation() {
@@ -93,5 +103,29 @@ mod tests {
         assert_vec3_eq!(gamma.state.p, Vec3(-9.8, -2.5, -1.1));
         assert_relative_eq!(gamma.state.m, 0.0);
         assert_eq!(gamma.state.alive, true);
+    }
+
+    #[test]
+    fn test_particle_propagate() {
+        let mut electron1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(1.0, 0.0, 0.0), ParticleType::Electron);
+        let mut muon1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 1.0, 0.0), ParticleType::Muon);
+        let mut gamma1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 0.0, 1.0), ParticleType::Gamma);
+
+        let volume = Volume::new(10.0);
+        let world1 = World::new(vec![], volume.clone(), 1.0);  // particle list left empty to avoid confusion: this is not the full or correct usage
+        let world2 = World::new(vec![], volume, 0.1);
+
+        electron1.propagate(&world1);
+        assert_vec3_eq!(electron1.state.r, Vec3(266.9576214377587, 0.0, 0.0));
+        electron1.propagate(&world2);
+        assert_vec3_eq!(electron1.state.r, Vec3(266.9576214377587+26.69576214377587, 0.0, 0.0));
+        muon1.propagate(&world1);
+        assert_vec3_eq!(muon1.state.r, Vec3(0.0, 2.837204544727953, 0.0));
+        muon1.propagate(&world2);
+        assert_vec3_eq!(muon1.state.r, Vec3(0.0, 2.837204544727953+0.2837204544727953, 0.0));
+        gamma1.propagate(&world1);
+        assert_vec3_eq!(gamma1.state.r, Vec3(0.0, 0.0, 299.792458));
+        gamma1.propagate(&world2);
+        assert_vec3_eq!(gamma1.state.r, Vec3(0.0, 0.0, 299.792458+29.9792458));
     }
 }
