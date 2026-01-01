@@ -1,5 +1,4 @@
 use crate::utils::vec3::Vec3;
-use crate::sim::world::World;
 use crate::utils::constants::C;
 use crate::utils::physics::beta;
 
