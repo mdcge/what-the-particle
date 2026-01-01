@@ -22,6 +22,10 @@ impl WASMWorld {
         WASMWorld { world: World::new(vec![], volume, dt) }
     }
 
+    pub fn step(&mut self) {
+        self.world.step();
+    }
+
     // Add particle to simulation: API will need to be reviewed
     pub fn add_particle(&mut self, name: &str, x: f64, y: f64, z: f64, px: f64, py: f64, pz: f64) {
         let particle = match name {
