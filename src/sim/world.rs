@@ -2,8 +2,8 @@ use crate::particle::particle::Particle;
 use crate::geometry::volume::Volume;
 
 pub struct World {
-    time: f64,  // world time (ns)
-    pub dt: f64,    // time step (ns)
+    time: f64,    // world time (ns)
+    pub dt: f64,  // time step (ns)
     pub particles: Vec<Particle>,
     pub volume: Volume,
 }
