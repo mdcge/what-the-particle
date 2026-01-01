@@ -7,12 +7,20 @@ pub fn energy(particle: &Particle) -> f64 {
     (particle.state.p.mag().powf(2.0) + particle.state.m.powf(2.0)).sqrt()
 }
 
-// Get gamma factor of the particle
+// Get gamma factor of particle
 pub fn gamma(particle: &Particle) -> Option<f64> {
     let energy = energy(&particle);
     match particle.species {
         ParticleType::Gamma => None,
         _                   => Some(energy / particle.state.m),
+    }
+}
+
+// Get beta factor of particle
+pub fn beta(particle: &Particle) -> f64 {
+    match particle.species {
+        ParticleType::Gamma => 1.0,
+        _                   => (1.0 - 1.0/gamma(&particle).expect("Division by gamma factor which is equal to 0.").powf(2.0)).sqrt(),
     }
 }
 
@@ -61,5 +69,15 @@ mod tests {
         assert_gamma_eq(gamma(&p4), Some(1.0));
         assert_gamma_eq(gamma(&p5), Some(1.0));
         assert_gamma_eq(gamma(&p6), None);
+    }
+
+    #[test]
+    fn test_physics_beta() {
+        let p1 = Particle::new(Vec3(0.1, -1.5, -5.5), Vec3(-4.0, 0.0, 3.0), ParticleType::Electron);
+        let p2 = Particle::new(Vec3(0.7, 9.8, 1.3), Vec3(3.0, 4.0, 0.0), ParticleType::Muon);
+        let p3 = Particle::new(Vec3(1.5, -2.1, -4.8), Vec3(3.0, 4.0, 0.0), ParticleType::Gamma);
+        assert_relative_eq!(beta(&p1), 0.9948181376436321);
+        assert_relative_eq!(beta(&p2), 0.04726870197708133);
+        assert_relative_eq!(beta(&p3), 1.0);
     }
 }
