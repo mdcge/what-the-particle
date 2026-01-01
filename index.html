@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Rust WASM Simulator Test</h1>
+    <pre id="log"></pre>
+
+    <script type="module">
+      import init, { WASMWorld } from "./pkg/mount_charles.js";
+
+      async function run() {
+          await init(); // load WASM module
+
+          const world = new WASMWorld(10.0, 1.0);  // create world
+          world.add_particle("e-", 0, 0, 0, 1, 0, 0);  // add particle
+
+          console.log(world.get_particle_position());  // write particle position
+      }
+
+      run();
+    </script>
+  </body>
+</html>
