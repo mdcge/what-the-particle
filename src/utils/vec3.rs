@@ -1,6 +1,6 @@
 use std::ops::{Add, Sub, Mul, Div, Neg};
 use std::cmp::{PartialEq};
-use approx::{relative_eq, assert_relative_eq};
+use approx::relative_eq;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vec3(pub f64, pub f64, pub f64);
@@ -87,6 +87,7 @@ impl PartialEq<Vec3> for Vec3 {
 mod tests {
     use super::*;
     use crate::assert_vec3_eq;
+    use approx::assert_relative_eq;
 
     #[test]
     fn test_vec3_indexing() {

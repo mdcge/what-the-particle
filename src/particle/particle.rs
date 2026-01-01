@@ -1,5 +1,4 @@
 use crate::utils::vec3::Vec3;
-use approx::assert_relative_eq;
 
 #[derive(Debug)]
 pub struct ParticleState {
@@ -21,6 +20,7 @@ impl ParticleState {
 mod tests {
     use super::*;
     use crate::assert_vec3_eq;
+    use approx::assert_relative_eq;
 
     #[test]
     fn test_particlestate_creation() {
