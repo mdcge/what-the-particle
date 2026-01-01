@@ -45,10 +45,10 @@ impl Particle {
         Particle { species: part_type, state: particle_state }
     }
 
-    pub fn propagate(&mut self, world: &World) {
+    pub fn propagate(&mut self, dt: f64) {
         let dir = self.state.p.norm();
         let beta = beta(&self);
-        self.state.r += dir * beta * C * world.dt;  // dir[1] * beta[1] * C[mm/ns] * dt[ns]
+        self.state.r += dir * beta * C * dt;  // dir[1] * beta[1] * C[mm/ns] * dt[ns]
     }
 }
 
@@ -112,20 +112,18 @@ mod tests {
         let mut gamma1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 0.0, 1.0), ParticleType::Gamma);
 
         let volume = Volume::new(10.0);
-        let world1 = World::new(vec![], volume.clone(), 1.0);  // particle list left empty to avoid confusion: this is not the full or correct usage
-        let world2 = World::new(vec![], volume, 0.1);
 
-        electron1.propagate(&world1);
+        electron1.propagate(1.0);
         assert_vec3_eq!(electron1.state.r, Vec3(266.9576214377587, 0.0, 0.0));
-        electron1.propagate(&world2);
+        electron1.propagate(0.1);
         assert_vec3_eq!(electron1.state.r, Vec3(266.9576214377587+26.69576214377587, 0.0, 0.0));
-        muon1.propagate(&world1);
+        muon1.propagate(1.0);
         assert_vec3_eq!(muon1.state.r, Vec3(0.0, 2.837204544727953, 0.0));
-        muon1.propagate(&world2);
+        muon1.propagate(0.1);
         assert_vec3_eq!(muon1.state.r, Vec3(0.0, 2.837204544727953+0.2837204544727953, 0.0));
-        gamma1.propagate(&world1);
+        gamma1.propagate(1.0);
         assert_vec3_eq!(gamma1.state.r, Vec3(0.0, 0.0, 299.792458));
-        gamma1.propagate(&world2);
+        gamma1.propagate(0.1);
         assert_vec3_eq!(gamma1.state.r, Vec3(0.0, 0.0, 299.792458+29.9792458));
     }
 }
