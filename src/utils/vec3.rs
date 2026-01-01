@@ -14,6 +14,14 @@ impl Vec3 {
         (self.0*self.0 + self.1*self.1 + self.2*self.2).sqrt()
     }
 
+    pub fn norm(self) -> Vec3 {
+        let magnitude = self.mag();
+        match magnitude {
+            0.0 => Vec3(0.0, 0.0, 0.0),
+            _   => self / magnitude,
+        }
+    }
+
     pub fn dot(self, rhs: Vec3) -> f64 {
         self.0*rhs.0 + self.1*rhs.1 + self.2*rhs.2
     }
@@ -192,6 +200,22 @@ mod tests {
         assert_relative_eq!(v1.mag(), (-v1).mag());
         assert_relative_eq!(v2.mag(), (-v2).mag());
         assert_relative_eq!(v3.mag(), (-v3).mag());
+    }
+
+    #[test]
+    fn test_vec3_norm() {
+        let v1 = Vec3(0.0, 0.0, 0.0);
+        let v2 = Vec3(3.0, 4.0, 0.0);
+        let v3 = Vec3(-5.2, 1.5, -2.2);
+        assert_vec3_eq!(v1.norm(), Vec3(0.0, 0.0, 0.0));
+        assert_vec3_eq!(v2.norm(), Vec3(0.6, 0.8, 0.0));
+        assert_vec3_eq!(v3.norm(), Vec3(-0.8900926185606606, 0.25675748612326743, -0.37657764631412566));
+        assert_vec3_eq!(v1.norm(), -(-v1).norm());
+        assert_vec3_eq!(v2.norm(), -(-v2).norm());
+        assert_vec3_eq!(v3.norm(), -(-v3).norm());
+        assert_vec3_eq!(v1, v1.norm() * v1.mag());
+        assert_vec3_eq!(v2, v2.norm() * v2.mag());
+        assert_vec3_eq!(v3, v3.norm() * v3.mag());
     }
 
     #[test]
