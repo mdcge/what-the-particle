@@ -22,6 +22,26 @@ pub enum ParticleType {
     Gamma,
 }
 
+// Particle
+pub struct Particle {
+    pub species: ParticleType,
+    pub state: ParticleState,
+}
+
+impl Particle {
+    pub fn new(pos: Vec3, mom: Vec3, part_type: ParticleType) -> Self {
+        let mass = match part_type {
+            ParticleType::Electron =>   0.511,
+            ParticleType::Muon     => 105.66,
+            ParticleType::Gamma    =>   0.0,
+        };
+        let particle_state = ParticleState::new(pos, mom, mass);
+
+        Particle { species: part_type, state: particle_state }
+    }
+}
+
+
 // Tests
 #[cfg(test)]
 mod tests {
@@ -55,5 +75,21 @@ mod tests {
     }
 
     #[test]
-    fn
+    fn test_particle_creation() {
+        let electron = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(1.0, 0.0, 0.0), ParticleType::Electron);
+        let muon = Particle::new(Vec3(5.0, -2.0, 10.0), Vec3(2.0, 3.0, -4.0), ParticleType::Muon);
+        let gamma = Particle::new(Vec3(-1.2, 7.6, 6.7), Vec3(-9.8, -2.5, -1.1), ParticleType::Gamma);
+        assert_vec3_eq!(electron.state.r, Vec3(0.0, 0.0, 0.0));
+        assert_vec3_eq!(electron.state.p, Vec3(1.0, 0.0, 0.0));
+        assert_relative_eq!(electron.state.m, 0.511);
+        assert_eq!(electron.state.alive, true);
+        assert_vec3_eq!(muon.state.r, Vec3(5.0, -2.0, 10.0));
+        assert_vec3_eq!(muon.state.p, Vec3(2.0, 3.0, -4.0));
+        assert_relative_eq!(muon.state.m, 105.66);
+        assert_eq!(muon.state.alive, true);
+        assert_vec3_eq!(gamma.state.r, Vec3(-1.2, 7.6, 6.7));
+        assert_vec3_eq!(gamma.state.p, Vec3(-9.8, -2.5, -1.1));
+        assert_relative_eq!(gamma.state.m, 0.0);
+        assert_eq!(gamma.state.alive, true);
+    }
 }
