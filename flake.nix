@@ -50,10 +50,18 @@
               name = "my-rust-project";
 
               packages = [
+                # ----- A Python interpreter with the packages that interest us -------
+                (pkgs.python313.withPackages (ps: [
+                  ps.pytest
+                  ps.numpy
+                  ps.python-lsp-server
+                ]))
                 pkgs.rust-tools     # Our configured rust toolchain
                 pkgs.cargo-nextest  # Modern test runner
                 pkgs.bacon          # Background rust code checker
                 pkgs.just           # Command runner
+                pkgs.wasm-pack      # Rust -> WASM package builder
+                pkgs.nodejs_24      # JavaScript
               ];
 
               # Shell configuration
