@@ -26,6 +26,7 @@ impl World {
 
             // Propagate the particle
             particle.propagate(self.dt);
+            println!("{:?}", particle.state.r);
 
             // Check if particle is out of bounds
             if !self.volume.contains(&particle) {
