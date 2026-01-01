@@ -18,4 +18,4 @@ profile = "default"
 # see https://rust-lang.github.io/rustup/concepts/components.html
 components = [ "rust-analyzer", "clippy", "rust-src", "rustfmt" ]
 
-#targets = [ "wasm32-unknown-unknown" ]
+targets = [ "wasm32-unknown-unknown" ]
