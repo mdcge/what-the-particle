@@ -16,6 +16,26 @@ impl World {
     pub fn has_alive_particles(&self) -> bool {
         self.particles.iter().any(|p| p.state.alive)
     }
+
+    pub fn step(&mut self) {
+        for particle in &mut self.particles {
+            // Ignore if particle is dead
+            if !particle.state.alive {
+                continue;
+            }
+
+            // Propagate the particle
+            particle.propagate(self.dt);
+
+            // Check if particle is out of bounds
+            if !self.volume.contains(&particle) {
+                particle.state.alive = false;
+                continue;
+            }
+
+            // Interaction will go here
+        }
+    }
 }
 
 
