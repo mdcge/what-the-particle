@@ -1,6 +1,4 @@
-use crate::utils::vec3::Vec3;
 use crate::particle::particle::{Particle, ParticleType};
-use approx::assert_relative_eq;
 
 // Get particle energy
 pub fn energy(particle: &Particle) -> f64 {
@@ -26,18 +24,20 @@ pub fn beta(particle: &Particle) -> f64 {
 
 
 // Tests
-fn assert_gamma_eq(lhs: Option<f64>, rhs: Option<f64>) {
-    match (lhs, rhs) {
-        (None, None)       => (),
-        (None, Some(_))    => panic!("Mismatched variants: LHS is None, RHS is Some"),
-        (Some(_), None)    => panic!("Mismatched variants: LHS is Some, RHS is None"),
-        (Some(a), Some(b)) => assert_relative_eq!(a, b),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::utils::vec3::Vec3;
+    use approx::assert_relative_eq;
+
+    fn assert_gamma_eq(lhs: Option<f64>, rhs: Option<f64>) {
+        match (lhs, rhs) {
+            (None, None)       => (),
+            (None, Some(_))    => panic!("Mismatched variants: LHS is None, RHS is Some"),
+            (Some(_), None)    => panic!("Mismatched variants: LHS is Some, RHS is None"),
+            (Some(a), Some(b)) => assert_relative_eq!(a, b),
+        }
+    }
 
     #[test]
     fn test_physics_energy() {
