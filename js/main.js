@@ -16,7 +16,7 @@ document.body.appendChild(stats.dom);
 const camera_manager = new CameraManager();
 
 // === Visualizer ===
-const visualizer = new Visualizer(camera_manager.active_camera);
+const visualizer = new Visualizer(camera_manager);
 visualizer.add_volume(500);
 
 function animate() {
@@ -24,8 +24,8 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    visualizer.controls.update();
-    visualizer.renderer.render(visualizer.scene, camera_manager.active_camera);
+    visualizer.update_controls();
+    visualizer.render();
 
     stats.end();
 }
