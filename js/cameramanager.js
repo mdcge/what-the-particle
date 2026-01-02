@@ -28,9 +28,8 @@ export default class CameraManager {
         this.active_camera = this.persp_camera; // by default, start in perspective view
     }
 
-    switch_camera(visualizer) {
-        let new_camera = this.active_camera == this.persp_camera ? this.ortho_camera : this.persp_camera;
-        visualizer.controls.object = new_camera;
+    switch_camera() {
+        this.active_camera = this.active_camera == this.persp_camera ? this.ortho_camera : this.persp_camera;
     }
 
 }

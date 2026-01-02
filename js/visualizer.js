@@ -51,4 +51,9 @@ export default class Visualizer {
     render() {
         this.renderer.render(this.scene, this.camera_manager.active_camera)
     }
+
+    switch_camera() {
+        this.camera_manager.switch_camera();
+        this.controls.object = this.camera_manager.active_camera;
+    }
 }
