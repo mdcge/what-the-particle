@@ -26,18 +26,43 @@ const persp_camera = new THREE.PerspectiveCamera(
 );
 persp_camera.position.set(400, 400, 1100);
 
-renderer.render(scene, persp_camera);
+// === OrbitControls ===
+let controls = new OrbitControls(persp_camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enablePan = true;
+controls.enableZoom = true;
+controls.rotateSpeed = 0.8;
 
-async function run() {
-    await init(); // load WASM module
+// === Set camera ===
+let active_camera = persp_camera;
+controls.object = active_camera;
 
-    const world = new WASMWorld(10.0, 0.001);  // create world
-    world.add_particle("e-", 0, 0, 0, 1, 0, 0);  // add particle
+// === Detector volume ===
+const size = 500;
+const geometry = new THREE.BoxGeometry(size, size, size);
+const edges = new THREE.EdgesGeometry(geometry);
+const edge_material = new THREE.LineBasicMaterial({ color: 0x555555 });
+const box_edges = new THREE.LineSegments(edges, edge_material);
+scene.add(box_edges);
 
-    for (let i = 0; i < 5; i++) {
-        world.step();
-        console.log(`Step ${i+1}:`, world.get_particle_position());
-    }
+const volume_material = new THREE.MeshBasicMaterial({
+    color: 0x222222,
+    transparent: true,
+    opacity: 0.2,
+    side: THREE.BackSide,
+});
+const box_volume = new THREE.Mesh(geometry, volume_material);
+scene.add(box_volume);
+
+function animate() {
+    stats.begin();
+
+    requestAnimationFrame(animate);
+
+    controls.update();
+    renderer.render(scene, active_camera);
+
+    stats.end();
 }
-
-run();
+animate();
