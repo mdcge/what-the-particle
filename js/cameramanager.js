@@ -40,17 +40,13 @@ export default class CameraManager {
         switch (axis) {
         case "x":
             this.ortho_camera.position.set(1000, 0, 0);
-            this.ortho_camera.up.set(0, 1, 0);
-            this.ortho_camera.lookAt(0, 0, 0);
         case "y":
             this.ortho_camera.position.set(0, 1000, 0);
-            this.ortho_camera.up.set(0, 1, 0);
-            this.ortho_camera.lookAt(0, 0, 0);
         case "z":
             this.ortho_camera.position.set(0, 0, 1000);
-            this.ortho_camera.up.set(0, 1, 0);
-            this.ortho_camera.lookAt(0, 0, 0);
         }
+        this.ortho_camera.up.set(0, 1, 0);
+        this.ortho_camera.lookAt(0, 0, 0);
     }
 
 }
