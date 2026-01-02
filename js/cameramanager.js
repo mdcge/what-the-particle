@@ -28,15 +28,11 @@ export default class CameraManager {
         this.active_camera = this.persp_camera; // by default, start in perspective view
     }
 
-    set_ortho_camera() {
-        this.active_camera = this.ortho_camera;
-    }
-
     set_persp_camera() {
         this.active_camera = this.persp_camera;
     }
 
-    set_ortho_camera_axis(axis) { // axis is "x", "y" or "z"
+    set_ortho_camera(axis) { // axis is "x", "y" or "z"
         switch (axis) {
         case "x":
             this.ortho_camera.position.set(1000, 0, 0);
@@ -47,6 +43,8 @@ export default class CameraManager {
         }
         this.ortho_camera.up.set(0, 1, 0);
         this.ortho_camera.lookAt(0, 0, 0);
+
+        this.active_camera = this.ortho_camera;
     }
 
 }

@@ -52,18 +52,32 @@ export default class Visualizer {
         this.renderer.render(this.scene, this.camera_manager.active_camera)
     }
 
-    set_ortho_view() {
-        this.camera_manager.set_ortho_camera();
+    set_ortho_view(axis) {
+        this.controls.dispose();
+        this.controls = new OrbitControls(this.camera_manager.ortho_camera, this.renderer.domElement);
+
+        // Don't enable rotation in orthographic view
+        this.controls.enableDamping = false;
+        this.controls.enableRotate = false;
+        this.controls.enableZoom = true;
+        this.controls.screenSpacePanning = true;
+
+        this.camera_manager.set_ortho_camera(axis);
         this.controls.object = this.camera_manager.active_camera;
     }
 
     set_persp_view() {
-        this.camera_manager.set_persp_camera();
-        this.controls.object = this.camera_manager.active_camera;
-    }
+        this.controls.dispose();
+        this.controls = new OrbitControls(this.camera_manager.persp_camera, this.renderer.domElement);
 
-    set_ortho_view_axis(axis) {
-        this.camera_manager.set_ortho_camera_axis(axis);
+        // Set perspective camera behaviour
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.05;
+        this.controls.enablePan = true;
+        this.controls.enableZoom = true;
+        this.controls.rotateSpeed = 0.8;
+
+        this.camera_manager.set_persp_camera();
         this.controls.object = this.camera_manager.active_camera;
     }
 
