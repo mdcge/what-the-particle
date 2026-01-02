@@ -26,17 +26,17 @@ function animate() {
     requestAnimationFrame(animate);
 
     if (i == 120) {
-        visualizer.set_ortho_camera();
-        visualizer.set_ortho_camera_axis("x");
+        visualizer.set_ortho_view();
+        visualizer.set_ortho_view_axis("x");
         console.log("Switched to x");
     } else if (i == 240) {
-        visualizer.set_ortho_camera_axis("y");
+        visualizer.set_ortho_view_axis("y");
         console.log("Switched to y");
     } else if (i == 360) {
-        visualizer.set_ortho_camera_axis("z");
+        visualizer.set_ortho_view_axis("z");
         console.log("Switched to z");
     } else if (i == 480) {
-        visualizer.set_persp_camera();
+        visualizer.set_persp_view();
         console.log("Switched to persp");
         i = 0;
     }

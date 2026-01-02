@@ -52,17 +52,17 @@ export default class Visualizer {
         this.renderer.render(this.scene, this.camera_manager.active_camera)
     }
 
-    set_ortho_camera() {
+    set_ortho_view() {
         this.camera_manager.set_ortho_camera();
         this.controls.object = this.camera_manager.active_camera;
     }
 
-    set_persp_camera() {
+    set_persp_view() {
         this.camera_manager.set_persp_camera();
         this.controls.object = this.camera_manager.active_camera;
     }
 
-    set_ortho_camera_axis(axis) {
+    set_ortho_view_axis(axis) {
         this.camera_manager.set_ortho_camera_axis(axis);
         this.controls.object = this.camera_manager.active_camera;
     }
