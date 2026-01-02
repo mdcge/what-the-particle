@@ -19,10 +19,28 @@ const camera_manager = new CameraManager();
 const visualizer = new Visualizer(camera_manager);
 visualizer.add_volume(500);
 
+let i = 0;
 function animate() {
     stats.begin();
 
     requestAnimationFrame(animate);
+
+    if (i == 120) {
+        visualizer.set_ortho_camera();
+        visualizer.set_ortho_camera_axis("x");
+        console.log("Switched to x");
+    } else if (i == 240) {
+        visualizer.set_ortho_camera_axis("y");
+        console.log("Switched to y");
+    } else if (i == 360) {
+        visualizer.set_ortho_camera_axis("z");
+        console.log("Switched to z");
+    } else if (i == 480) {
+        visualizer.set_persp_camera();
+        console.log("Switched to persp");
+        i = 0;
+    }
+    i += 1;
 
     visualizer.update_controls();
     visualizer.render();

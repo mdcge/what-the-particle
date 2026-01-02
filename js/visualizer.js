@@ -62,4 +62,9 @@ export default class Visualizer {
         this.controls.object = this.camera_manager.active_camera;
     }
 
+    set_ortho_camera_axis(axis) {
+        this.camera_manager.set_ortho_camera_axis(axis);
+        this.controls.object = this.camera_manager.active_camera;
+    }
+
 }
