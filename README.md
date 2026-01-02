@@ -1,4 +1,4 @@
-# What The Particle?! - A LiquidO Game
+# What The Particle?! — A LiquidO Game
 
 This project is comprised of two main components:
 
@@ -50,6 +50,26 @@ where $\vec{r}$ is the particle position, $\hat{p}$ its normalized momentum vect
 As this is a very simple particle simulator, only the dominant interaction for each particle type is implemented.
 
 #### Electron
+
+# What The Particle
+This section describes the game aspect of this project, including the different functionalities and levels available.
+
+## Navigation
+The 3D view has two different types of cameras: perspective and orthographic. In orthographic mode, the camera looks along the axis, with the axis in question being determined by the user.
+
+In perspective mode, the view can be zoomed, panned and rotated. In orthographic mode, only zooming and panning are possible.
+
+The navigation operations are summarized in the following table:
+| Action                    | Input                         |
+| :------------------------ | :---------------------------: |
+| Zoom in                   | Scroll up                     |
+| Zoom out                  | Scroll down                   |
+| Pan                       | `Shift` + `Left click` + drag |
+| Rotate                    | `Left click` + drag           |
+| Perspective view          | `0` or `p`                    |
+| Orthographic view along x | `1` or `x`                    |
+| Orthographic view along y | `2` or `y`                    |
+| Orthographic view along z | `3` or `z`                    |
 
 # Development
 
