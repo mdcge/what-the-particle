@@ -19,19 +19,12 @@ const camera_manager = new CameraManager();
 const visualizer = new Visualizer(camera_manager);
 visualizer.add_volume(500);
 
+// === Switch between views ===
 window.addEventListener('keydown', e => {
-    if (e.key === '1') {
-        visualizer.set_ortho_view("x");
-    }
-    if (e.key === '2') {
-        visualizer.set_ortho_view("y");
-    }
-    if (e.key === '3') {
-        visualizer.set_ortho_view("z");
-    }
-    if (e.key === '0') {
-        visualizer.set_persp_view();
-    }
+    if ((e.key === '1') || (e.key === 'x')) { visualizer.set_ortho_view("x"); }
+    if ((e.key === '2') || (e.key === 'y')) { visualizer.set_ortho_view("y"); }
+    if ((e.key === '3') || (e.key === 'z')) { visualizer.set_ortho_view("z"); }
+    if ((e.key === '0') || (e.key === 'p')) { visualizer.set_persp_view(); }
 });
 
 function animate() {
