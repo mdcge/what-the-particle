@@ -19,27 +19,25 @@ const camera_manager = new CameraManager();
 const visualizer = new Visualizer(camera_manager);
 visualizer.add_volume(500);
 
-let i = 0;
+window.addEventListener('keydown', e => {
+    if (e.key === '1') {
+        visualizer.set_ortho_view("x");
+    }
+    if (e.key === '2') {
+        visualizer.set_ortho_view("y");
+    }
+    if (e.key === '3') {
+        visualizer.set_ortho_view("z");
+    }
+    if (e.key === '0') {
+        visualizer.set_persp_view();
+    }
+});
+
 function animate() {
     stats.begin();
 
     requestAnimationFrame(animate);
-
-    if (i == 120) {
-        visualizer.set_ortho_view("x");
-        console.log("Switched to x");
-    } else if (i == 240) {
-        visualizer.set_ortho_view("y");
-        console.log("Switched to y");
-    } else if (i == 360) {
-        visualizer.set_ortho_view("z");
-        console.log("Switched to z");
-    } else if (i == 480) {
-        visualizer.set_persp_view();
-        console.log("Switched to persp");
-        i = 0;
-    }
-    i += 1;
 
     visualizer.update_controls();
     visualizer.render();
