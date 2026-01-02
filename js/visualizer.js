@@ -17,6 +17,7 @@ export default class Visualizer {
         controls.enablePan = true;
         controls.enableZoom = true;
         controls.rotateSpeed = 0.8;
+        controls.object = camera;
 
         this.scene = scene;
         this.renderer = renderer;
