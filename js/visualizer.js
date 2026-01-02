@@ -52,8 +52,14 @@ export default class Visualizer {
         this.renderer.render(this.scene, this.camera_manager.active_camera)
     }
 
-    switch_camera() {
-        this.camera_manager.switch_camera();
+    set_ortho_camera() {
+        this.camera_manager.set_ortho_camera();
         this.controls.object = this.camera_manager.active_camera;
     }
+
+    set_persp_camera() {
+        this.camera_manager.set_persp_camera();
+        this.controls.object = this.camera_manager.active_camera;
+    }
+
 }

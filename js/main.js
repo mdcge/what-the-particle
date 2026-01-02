@@ -19,17 +19,10 @@ const camera_manager = new CameraManager();
 const visualizer = new Visualizer(camera_manager);
 visualizer.add_volume(500);
 
-let i = 0;
 function animate() {
     stats.begin();
 
     requestAnimationFrame(animate);
-
-    if (i > 600) {
-        visualizer.switch_camera();
-        i = 0;
-    }
-    i += 1;
 
     visualizer.update_controls();
     visualizer.render();

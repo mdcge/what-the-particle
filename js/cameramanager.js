@@ -28,8 +28,14 @@ export default class CameraManager {
         this.active_camera = this.persp_camera; // by default, start in perspective view
     }
 
-    switch_camera() {
-        this.active_camera = this.active_camera == this.persp_camera ? this.ortho_camera : this.persp_camera;
+    set_ortho_camera() {
+        this.active_camera = this.ortho_camera;
+    }
+
+    set_persp_camera() {
+        this.active_camera = this.persp_camera;
+    }
+
     }
 
 }
