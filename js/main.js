@@ -28,10 +28,21 @@ window.addEventListener('keydown', e => {
     if ((e.key === '0') || (e.key === 'p')) { visualizer.set_persp_view(); }
 });
 
+// === Simulation ===
 await init(); // load WASM module
 const world = new WASMWorld(volume_size, 0.001, 1);  // create world
 world.add_particle("e-", 0, 0, 0, 10, 0, 0);  // add particle
 
+while (world.has_alive_particles()) {
+    world.step();
+}
+const points = world.get_particle_position_history().map(([x, y, z]) => new THREE.Vector3(x, y, z));
+const geometry = new THREE.BufferGeometry().setFromPoints(points);
+const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+const line = new THREE.Line(geometry, material);
+visualizer.scene.add(line);
+
+// === Animation loop ===
 function animate() {
     stats.begin();
 
@@ -39,13 +50,6 @@ function animate() {
 
     visualizer.update_controls();
     visualizer.render();
-
-    world.step();
-    const points = world.get_particle_position_history().map(([x, y, z]) => new THREE.Vector3(x, y, z));
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-    const line = new THREE.Line(geometry, material);
-    visualizer.scene.add(line);
 
     stats.end();
 }
