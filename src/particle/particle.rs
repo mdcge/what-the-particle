@@ -1,5 +1,5 @@
 use crate::utils::vec3::Vec3;
-use crate::utils::constants::C;
+use crate::utils::constants::{C, Me, Mmu, Mg};
 use crate::utils::physics::beta;
 
 // Particle state
@@ -35,9 +35,9 @@ pub struct Particle {
 impl Particle {
     pub fn new(pos: Vec3, mom: Vec3, part_type: ParticleType) -> Self {
         let mass = match part_type {
-            ParticleType::Electron =>   0.511,
-            ParticleType::Muon     => 105.66,
-            ParticleType::Gamma    =>   0.0,
+            ParticleType::Electron => Me,
+            ParticleType::Muon     => Mmu,
+            ParticleType::Gamma    => Mg,
         };
         let particle_state = ParticleState::new(pos, mom, mass);
 
