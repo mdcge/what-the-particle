@@ -37,6 +37,13 @@ pub fn dEdx(particle: &Particle) -> f64 {
     value
 }
 
+// Get kinetic energy of a particle in MeV
+pub fn ke(particle: &Particle) -> f64 {
+    let p = particle.state.p.mag();
+    let m = particle.state.m;
+    (p*p + m*m).sqrt() - m
+}
+
 // Tests
 #[cfg(test)]
 mod tests {
@@ -109,5 +116,21 @@ mod tests {
         assert_relative_eq!(dEdx(&p4), 0.8);
         assert_relative_eq!(dEdx(&p5), 0.21359254760465154);
         assert_relative_eq!(dEdx(&p6), 0.24890235819417583);
+    }
+
+    #[test]
+    fn test_physics_ke() {
+        let p1 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 0.0, 0.0), ParticleType::Electron);
+        let p2 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(0.0, 0.0, 0.0), ParticleType::Muon);
+        let p3 = Particle::new(Vec3(1.0, -1.0, 0.0), Vec3(4.0, -3.0, 0.0), ParticleType::Electron);
+        let p4 = Particle::new(Vec3(0.0, 3.0, 5.0), Vec3(4.0, -3.0, 0.0), ParticleType::Muon);
+        let p5 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(9.7, 15.2, 51.1), ParticleType::Electron);
+        let p6 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(53.4, -98.3, -89.5), ParticleType::Muon);
+        assert_relative_eq!(ke(&p1), 0.0);
+        assert_relative_eq!(ke(&p2), 0.0);
+        assert_relative_eq!(ke(&p3), 4.51504426960209);
+        assert_relative_eq!(ke(&p4), 0.11823783746825711);
+        assert_relative_eq!(ke(&p5), 53.679415397928075);
+        assert_relative_eq!(ke(&p6), 72.35330175017819);
     }
 }
