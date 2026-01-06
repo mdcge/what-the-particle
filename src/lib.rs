@@ -4,6 +4,7 @@ pub mod geometry;
 pub mod sim;
 
 use wasm_bindgen::prelude::*;
+use serde_wasm_bindgen::to_value;
 use crate::sim::world::World;
 use crate::geometry::volume::Volume;
 use crate::particle::particle::{Particle, ParticleType};
@@ -37,10 +38,8 @@ impl WASMWorld {
         self.world.particles.push(particle);
     }
 
-    // Get particle position
-    // This is a temporary function for quick testing in JS
-    pub fn get_particle_position(&self) -> Vec<f64> {
-        let p = &self.world.particles[0];
-        vec![p.state.r.0, p.state.r.1, p.state.r.2]
+    pub fn get_particle_position_history(&self) -> JsValue {
+        let serded_positions = self.world.position_history.clone().into_iter().map(|r| vec![r.0, r.1, r.2]).collect::<Vec<Vec<f64>>>();
+        to_value(&serded_positions).unwrap()
     }
 }
