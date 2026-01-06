@@ -1,6 +1,10 @@
+use rand::Rng;
+use rand_distr::{Normal, Distribution};
+
 use std::ops::{Add, AddAssign, Sub, Mul, Div, Neg};
 use std::cmp::{PartialEq};
 use approx::relative_eq;
+use crate::utils::operations::orthonormal_basis;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vec3(pub f64, pub f64, pub f64);
@@ -30,6 +34,17 @@ impl Vec3 {
         Vec3(self.1*rhs.2 - self.2*rhs.1,
              self.2*rhs.0 - self.0*rhs.2,
              self.0*rhs.1 - self.1*rhs.0)
+    }
+
+    pub fn deflect(&mut self, rng: &mut impl Rng, theta0: f64) {
+        let (u, v) = orthonormal_basis(*self);
+        let sigma = theta0 / std::f64::consts::SQRT_2;
+        let gaussian = Normal::new(0.0, sigma).unwrap();
+
+        let thetax = gaussian.sample(rng);
+        let thetay = gaussian.sample(rng);
+
+        *self = (*self + thetax * u + thetay * v).norm() * self.mag();
     }
 }
 
