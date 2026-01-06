@@ -1,6 +1,8 @@
+use rand::Rng;
+
 use crate::utils::vec3::Vec3;
 use crate::utils::constants::{C, Me, Mmu, Mg};
-use crate::utils::physics::beta;
+use crate::utils::physics::{beta, dEdx};
 
 // Particle state
 #[derive(Debug, Clone)]
@@ -48,6 +50,23 @@ impl Particle {
         let dir = self.state.p.norm();
         let beta = beta(&self);
         self.state.r += dir * beta * C * dt;  // dir[1] * beta[1] * C[mm/ns] * dt[ns]
+    }
+
+    pub fn interact(&mut self, rng: &mut impl Rng, X0: f64, dt: f64) {
+        let p = self.state.p.mag();
+        let ke_pre = (p*p + self.state.m*self.state.m).sqrt() - self.state.m;  // kinetic energy before step
+
+        let beta = beta(&self);
+        let dx = beta * C * dt;  // step size (mm)
+        let dEdx = dEdx(&self);
+        let theta0 = (13.6 / (beta * p)) * (dx/X0).sqrt() * (1.0 + 0.038 * f64::ln(dx/X0));
+
+        // Subtract energy lost in step
+        let ke_post = ke_pre - (dEdx * dx);
+        // Convert to momentum
+        let new_p = (ke_post * (ke_post + 2.0*self.state.m)).sqrt();
+        // Deflect momentum vector
+        self.state.p.deflect(rng, theta0);
     }
 }
 

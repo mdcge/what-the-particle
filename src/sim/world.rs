@@ -46,7 +46,8 @@ impl World {
                 continue;
             }
 
-            // Interaction will go here
+            // Interact the particle
+            particle.interact(&mut self.rng, self.volume.X0, self.dt);
         }
     }
 }
