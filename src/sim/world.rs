@@ -2,18 +2,27 @@ use rand::{rngs::StdRng, SeedableRng};
 
 use crate::particle::particle::Particle;
 use crate::geometry::volume::Volume;
+use crate::utils::vec3::Vec3;
 
 pub struct World {
     time: f64,    // world time (ns)
     pub dt: f64,  // time step (ns)
     pub particles: Vec<Particle>,
+    pub position_history: Vec<Vec3>,  // list of positions (temporary measure)
     pub volume: Volume,
     pub rng: StdRng,
 }
 
 impl World {
     pub fn new(particle_list: Vec<Particle>, vol: Volume, timestep: f64, random_seed: u64) -> Self {
-        World { time: 0.0, dt: timestep, particles: particle_list, volume: vol, rng: StdRng::seed_from_u64(random_seed) }
+        World {
+            time: 0.0,
+            dt: timestep,
+            particles: particle_list,
+            position_history: vec![],
+            volume: vol,
+            rng: StdRng::seed_from_u64(random_seed)
+        }
     }
 
     pub fn has_alive_particles(&self) -> bool {
@@ -29,6 +38,7 @@ impl World {
 
             // Propagate the particle
             particle.propagate(self.dt);
+            self.position_history.push(particle.state.r);
 
             // Check if particle is out of bounds
             if !self.volume.contains(&particle) {
