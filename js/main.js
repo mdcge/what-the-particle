@@ -27,6 +27,10 @@ window.addEventListener('keydown', e => {
     if ((e.key === '0') || (e.key === 'p')) { visualizer.set_persp_view(); }
 });
 
+await init(); // load WASM module
+const world = new WASMWorld(10.0, 0.001, 1);  // create world
+world.add_particle("e-", 0, 0, 0, 10, 0, 0);  // add particle
+
 function animate() {
     stats.begin();
 
@@ -34,6 +38,9 @@ function animate() {
 
     visualizer.update_controls();
     visualizer.render();
+
+    world.step();
+    console.log(world.get_particle_position_history());
 
     stats.end();
 }
