@@ -38,6 +38,10 @@ impl WASMWorld {
         self.world.particles.push(particle);
     }
 
+    pub fn has_alive_particles(&self) -> bool {
+        self.world.has_alive_particles()
+    }
+
     pub fn get_particle_position_history(&self) -> JsValue {
         let serded_positions = self.world.position_history.clone().into_iter().map(|r| vec![r.0, r.1, r.2]).collect::<Vec<Vec<f64>>>();
         to_value(&serded_positions).unwrap()
