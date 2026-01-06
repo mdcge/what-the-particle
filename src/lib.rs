@@ -17,9 +17,9 @@ pub struct WASMWorld {
 #[wasm_bindgen]
 impl WASMWorld {
     #[wasm_bindgen(constructor)]
-    pub fn new(volume_size: f64, dt: f64) -> Self {
+    pub fn new(volume_size: f64, dt: f64, seed: u64) -> Self {
         let volume = Volume::new(volume_size);
-        WASMWorld { world: World::new(vec![], volume, dt) }
+        WASMWorld { world: World::new(vec![], volume, dt, seed) }
     }
 
     pub fn step(&mut self) {
