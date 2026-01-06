@@ -63,8 +63,8 @@ impl Particle {
 
         // Subtract energy lost in step
         let ke_post = ke_pre - (dEdx * dx);
-        // Convert to momentum
-        let new_p = (ke_post * (ke_post + 2.0*self.state.m)).sqrt();
+        // Resize momentum vector with new momentum
+        self.state.p = self.state.p.norm() * (ke_post * (ke_post + 2.0*self.state.m)).sqrt();
         // Deflect momentum vector
         self.state.p.deflect(rng, theta0);
     }
