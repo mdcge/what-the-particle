@@ -2,7 +2,7 @@ use rand::Rng;
 
 use crate::utils::vec3::Vec3;
 use crate::utils::constants::{C, Me, Mmu, Mg};
-use crate::utils::physics::{beta, dEdx};
+use crate::utils::physics::{beta, dEdx, ke};
 
 // Particle state
 #[derive(Debug, Clone)]
@@ -54,7 +54,7 @@ impl Particle {
 
     pub fn interact(&mut self, rng: &mut impl Rng, X0: f64, dt: f64) {
         let p = self.state.p.mag();
-        let ke_pre = (p*p + self.state.m*self.state.m).sqrt() - self.state.m;  // kinetic energy before step
+        let ke_pre = ke(&self);  // kinetic energy before step
 
         let beta = beta(&self);
         let dx = beta * C * dt;  // step size (mm)

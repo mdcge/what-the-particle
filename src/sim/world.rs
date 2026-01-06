@@ -3,6 +3,7 @@ use rand::{rngs::StdRng, SeedableRng};
 use crate::particle::particle::Particle;
 use crate::geometry::volume::Volume;
 use crate::utils::vec3::Vec3;
+use crate::utils::physics::ke;
 
 pub struct World {
     time: f64,    // world time (ns)
@@ -50,9 +51,7 @@ impl World {
             particle.interact(&mut self.rng, self.volume.X0, self.dt);
 
             // Check if particle KE is below 10keV
-            let p = particle.state.p.mag();
-            let m = particle.state.m;
-            if (p*p + m*m).sqrt() - m < 0.01 {
+            if ke(&particle) < 0.01 {
                 particle.state.alive = false;
                 continue;
             }
