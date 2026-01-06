@@ -43,7 +43,10 @@ impl WASMWorld {
     }
 
     pub fn get_particle_position_history(&self) -> JsValue {
-        let serded_positions = self.world.position_history.clone().into_iter().map(|r| vec![r.0, r.1, r.2]).collect::<Vec<Vec<f64>>>();
+        let serded_positions = self.world.position_history.clone()
+                                                          .into_iter()
+                                                          .map(|r| vec![r.0, r.1, r.2])
+                                                          .collect::<Vec<Vec<f64>>>();
         to_value(&serded_positions).unwrap()
     }
 }

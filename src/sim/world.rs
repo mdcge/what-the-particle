@@ -32,6 +32,12 @@ impl World {
 
     pub fn step(&mut self) {
         for particle in &mut self.particles {
+            // Check if particle KE is below 10keV
+            if ke(&particle) < 0.01 {
+                particle.state.alive = false;
+                continue;
+            }
+
             // Ignore if particle is dead
             if !particle.state.alive {
                 continue;
@@ -49,12 +55,6 @@ impl World {
 
             // Interact the particle
             particle.interact(&mut self.rng, self.volume.X0, self.dt);
-
-            // Check if particle KE is below 10keV
-            if ke(&particle) < 0.01 {
-                particle.state.alive = false;
-                continue;
-            }
         }
     }
 }

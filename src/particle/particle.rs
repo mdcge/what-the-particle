@@ -61,8 +61,8 @@ impl Particle {
         let dEdx = dEdx(&self);
         let theta0 = (13.6 / (beta * p)) * (dx/X0).sqrt() * (1.0 + 0.038 * f64::ln(dx/X0));
 
-        // Subtract energy lost in step
-        let ke_post = ke_pre - (dEdx * dx);
+        // Subtract energy lost in step, clamp to 0 if negative
+        let ke_post = f64::max(ke_pre - (dEdx * dx), 0.0);
         // Resize momentum vector with new momentum
         self.state.p = self.state.p.norm() * (ke_post * (ke_post + 2.0*self.state.m)).sqrt();
         // Deflect momentum vector
