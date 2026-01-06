@@ -17,7 +17,8 @@ const camera_manager = new CameraManager();
 
 // === Visualizer ===
 const visualizer = new Visualizer(camera_manager);
-visualizer.add_volume(500);
+const volume_size = 500;
+visualizer.add_volume(volume_size);
 
 // === Switch between views ===
 window.addEventListener('keydown', e => {
@@ -28,7 +29,7 @@ window.addEventListener('keydown', e => {
 });
 
 await init(); // load WASM module
-const world = new WASMWorld(10.0, 0.001, 1);  // create world
+const world = new WASMWorld(volume_size, 0.001, 1);  // create world
 world.add_particle("e-", 0, 0, 0, 10, 0, 0);  // add particle
 
 function animate() {
@@ -40,7 +41,11 @@ function animate() {
     visualizer.render();
 
     world.step();
-    console.log(world.get_particle_position_history());
+    const points = world.get_particle_position_history().map(([x, y, z]) => new THREE.Vector3(x, y, z));
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    const line = new THREE.Line(geometry, material);
+    visualizer.scene.add(line);
 
     stats.end();
 }
