@@ -2,3 +2,4 @@ pub mod vec3;
 pub mod r#macro;
 pub mod physics;
 pub mod constants;
+pub mod operations;
