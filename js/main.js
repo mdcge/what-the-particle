@@ -30,8 +30,8 @@ window.addEventListener('keydown', e => {
 
 // === Simulation ===
 await init(); // load WASM module
-const world = new WASMWorld(volume_size, 0.001, 1);  // create world
-world.add_particle("e-", 0, 0, 0, 10, 0, 0);  // add particle
+const world = new WASMWorld(volume_size, 50.0, 0.001, 1);  // create world
+world.add_particle("e-", 0, 0, 0, 1, 0, 0);  // add particle
 
 while (world.has_alive_particles()) {
     world.step();
