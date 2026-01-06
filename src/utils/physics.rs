@@ -23,15 +23,15 @@ pub fn beta(particle: &Particle) -> f64 {
     }
 }
 
-// Get dE/dx of ionizing particles (MeV/mm)
+// Get dE/dx of ionizing particles (MeV/mm, hence the division by 10)
 pub fn dEdx(particle: &Particle) -> f64 {
     let momentum = particle.state.p.mag();
     let value = match particle.species {
-        ParticleType::Electron                     => log_polynomial(momentum, vec![1.97185875, -4.90322067e-01, 5.67984147e-01, -3.78515229e-01, 1.96937857e-01, -6.69875048e-02, 1.30714285e-02, -1.31646064e-03, 5.29555090e-05]),
-        ParticleType::Muon if momentum < 50.0      => log_polynomial(momentum, vec![-4.19708069e+05, 1.09601902e+06, -1.24795701e+06, 8.09428640e+05, -3.27064065e+05, 8.42922022e+04, -1.35291466e+04, 1.23625151e+03, -4.92348947e+01]),
-        ParticleType::Muon if momentum >= 50.0     => log_polynomial(momentum, vec![1.13754387e+03, -1.13642381e+03, 4.96588219e+02, -1.23563655e+02, 1.91190645e+01, -1.88126582e+00, 1.14850292e-01, -3.97495919e-03, 5.96940644e-05]),
         ParticleType::Electron if momentum < 0.103 => 8.0 * 0.1,  // constant energy loss below fit range
+        ParticleType::Electron                     => log_polynomial(momentum, vec![1.97185875, -4.90322067e-01, 5.67984147e-01, -3.78515229e-01, 1.96937857e-01, -6.69875048e-02, 1.30714285e-02, -1.31646064e-03, 5.29555090e-05]) * 0.1,
         ParticleType::Muon if momentum < 7.1       => 8.0 * 0.1,  // constant energy loss below fit range
+        ParticleType::Muon if momentum < 50.0      => log_polynomial(momentum, vec![-4.19708069e+05, 1.09601902e+06, -1.24795701e+06, 8.09428640e+05, -3.27064065e+05, 8.42922022e+04, -1.35291466e+04, 1.23625151e+03, -4.92348947e+01]) * 0.1,
+        ParticleType::Muon if momentum >= 50.0     => log_polynomial(momentum, vec![1.13754387e+03, -1.13642381e+03, 4.96588219e+02, -1.23563655e+02, 1.91190645e+01, -1.88126582e+00, 1.14850292e-01, -3.97495919e-03, 5.96940644e-05]) * 0.1,
         _                                          => unreachable!(),
     };
     value
@@ -103,11 +103,11 @@ mod tests {
         let p4 = Particle::new(Vec3(0.0, 3.0, 5.0), Vec3(5.6, -2.1, -1.3), ParticleType::Muon);
         let p5 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(9.7, 15.2, 51.1), ParticleType::Electron);
         let p6 = Particle::new(Vec3(0.0, 0.0, 0.0), Vec3(53.4, -98.3, -89.5), ParticleType::Muon);
-        assert_relative_eq!(dEdx(&p3), 1.8667002945559819);
-        assert_relative_eq!(dEdx(&p5), 2.1359254760465154);
-        assert_relative_eq!(dEdx(&p6), 2.4890235819417583);
         assert_relative_eq!(dEdx(&p1), 0.8);
         assert_relative_eq!(dEdx(&p2), 0.8);
+        assert_relative_eq!(dEdx(&p3), 0.18667002945559819);
         assert_relative_eq!(dEdx(&p4), 0.8);
+        assert_relative_eq!(dEdx(&p5), 0.21359254760465154);
+        assert_relative_eq!(dEdx(&p6), 0.24890235819417583);
     }
 }
