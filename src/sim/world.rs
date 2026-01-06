@@ -48,6 +48,14 @@ impl World {
 
             // Interact the particle
             particle.interact(&mut self.rng, self.volume.X0, self.dt);
+
+            // Check if particle KE is below 10keV
+            let p = particle.state.p.mag();
+            let m = particle.state.m;
+            if (p*p + m*m).sqrt() - m < 0.01 {
+                particle.state.alive = false;
+                continue;
+            }
         }
     }
 }
