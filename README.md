@@ -60,10 +60,34 @@ $$\Delta E = \frac{dE}{dx}\cdot dx = \frac{dE}{dx}\cdot\beta c\cdot\Delta t$$
 
 $$\theta_0 = \frac{13.6\text{ MeV}}{\beta p}\sqrt{\frac{dx}{X_0}}\left[1 + 0.038\ln{\left(\frac{dx}{X_0}\right)}\right]$$
 
-where $p$ is the momentum of the electron, $\beta$ the speed parameter and $X_0$ the radiation length of the material. In this formula, the $\frac{z^2}{\beta^2}$ term has been omitted from the logarithm, as it is considered to be negligible.
+where $p$ is the momentum of the electron, $\beta$ the speed parameter and $X_0$ the radiation length of the material. In this formula, the $\frac{z^2}{\beta^2}$ term has been omitted from the logarithm, as it is considered to be negligible. In this simulation, the value for water of $X_0=$ is used.
 
 #### Muon
-Muons are assumed to continuously ionize
+Muons are treated very similarly to electrons. The two components of the interaction are described below.
+
+**Energy loss:** Energy loss for muons is separated into two cases: momentum above and below 50MeV ("high" and "low" momentum).
+
+The dE/dx curve for the high momentum range is computed from the tabulated values in the full version of [this paper](https://pdg.lbl.gov/2023/AtomicNuclearProperties/adndt.pdf). These values are again fit to a degree 8 "log polynomial" (see [Table of coefficients](#table-of-coefficients)) in order to interpolate between the discrete given values.
+
+For the low momentum range, the Bethe-Bloch equation is used:
+
+$$-\frac{dE}{dx} = K\frac{Z_{\text{eff}}}{A}\frac{1}{\beta^2}\left[\frac{1}{2}\ln{\left(\frac{2m_e \beta^2\gamma^2 T_{\text{max}}}{I^2}\right)}-\beta^2-\frac{C}{Z}-\delta\right]$$
+
+where $Z_{\text{eff}}$ and $A$ are the effective atomic number and mass of the target, $T_{\text{max}}$ the maximum kinetic energy transfer to an electron, $I$ the mean excitation energy, $\frac{C}{Z}$ the shell correction and $\delta$ the density effect correction which we take to be negligible. Further, $T_{\text{max}}$ is given by (in natural units)
+
+$$T_{\text{max}} = \frac{2m_e\beta^2\gamma^2}{1 + 2\gamma m_e/m_\mu + (m_e/m_\mu)^2}$$
+
+whereas the shell correction is given by (from [this paper](https://pdg.lbl.gov/2023/AtomicNuclearProperties/adndt.pdf))
+
+$$\frac{C}{Z} \approx 0.42237\cdot\left(\frac{1}{\beta\gamma}\right)^2 + 0.0304\cdot\left(\frac{1\text{ MeV }}{\beta\gamma}\right)^4$$
+
+and the values of the other parameters for liquid water are shown in this table:
+
+| Parameter        | Value    |
+| :--------------- | -------: |
+| $Z_{\text{eff}}$ | 10       |
+| $A$              | 18 g/mol |
+| $I$              | 75 eV    |
 
 #### Table of coefficients
 The function that is used to recreate the dE/dx curves for electrons and muons is the so-called "log polynomial" of degree $D$, given by
