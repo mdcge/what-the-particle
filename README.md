@@ -56,11 +56,13 @@ Electron interactions are treated in two parts: energy loss and scattering. Thes
 
 $$\Delta E = \frac{dE}{dx}\cdot dx = \frac{dE}{dx}\cdot\beta c\cdot\Delta t$$
 
+Once the electron momentum drops below 0.103 MeV, it is out of the tabulated range, so a constant 8 MeV/cm energy loss is assumed.
+
 **Scattering:** The dominant process in electron scattering (at MeV energies) is multiple Coulomb scattering (MCS). This process can be approximated using the Highland formula (given in this [PDG review](https://pdg.lbl.gov/2019/reviews/rpp2018-rev-passage-particles-matter.pdf) for example), which gives the RMS scattering angle for the electron for a small step $dx$:
 
 $$\theta_0 = \frac{13.6\text{ MeV}}{\beta p}\sqrt{\frac{dx}{X_0}}\left[1 + 0.038\ln{\left(\frac{dx}{X_0}\right)}\right]$$
 
-where $p$ is the momentum of the electron, $\beta$ the speed parameter and $X_0$ the radiation length of the material. In this formula, the $\frac{z^2}{\beta^2}$ term has been omitted from the logarithm, as it is considered to be negligible. In this simulation, the value for water of $X_0=$ is used.
+where $p$ is the momentum of the electron, $\beta$ the speed parameter and $X_0$ the radiation length of the material. In this formula, the $\frac{z^2}{\beta^2}$ term has been omitted from the logarithm, as it is considered to be negligible. In this simulation, the value for water of $X_0=36.08\text{ cm}$ is used.
 
 #### Muon
 Muons are treated very similarly to electrons. The two components of the interaction are described below.
@@ -79,7 +81,7 @@ $$T_{\text{max}} = \frac{2m_e\beta^2\gamma^2}{1 + 2\gamma m_e/m_\mu + (m_e/m_\mu
 
 whereas the shell correction is given by (from [this paper](https://pdg.lbl.gov/2023/AtomicNuclearProperties/adndt.pdf))
 
-$$\frac{C}{Z} \approx 0.42237\cdot\left(\frac{1}{\beta\gamma}\right)^2 + 0.0304\cdot\left(\frac{1\text{ MeV }}{\beta\gamma}\right)^4$$
+$$\frac{C}{Z} \approx 0.42237\cdot\left(\frac{1}{\beta\gamma}\right)^2 + 0.0304\cdot\left(\frac{1}{\beta\gamma}\right)^4$$
 
 and the values of the other parameters for liquid water are shown in this table:
 
@@ -88,6 +90,10 @@ and the values of the other parameters for liquid water are shown in this table:
 | $Z_{\text{eff}}$ | 10       |
 | $A$              | 18 g/mol |
 | $I$              | 75 eV    |
+
+As for electrons, once the muon momentum drops below 8.9 MeV, it is out of the tabulated range, so a constant 8 MeV/cm energy loss is assumed.
+
+**Scattering:** Muons are scattering identically to electrons. Generally, their higher momentum will mean that their tracks are "straighter".
 
 #### Table of coefficients
 The function that is used to recreate the dE/dx curves for electrons and muons is the so-called "log polynomial" of degree $D$, given by
@@ -98,15 +104,15 @@ For this simulation, the log polynomial of degree 8 is used. The optimal coeffic
 
 | Coefficients | Electrons | Muons (<50 MeV) | Muons (>50 MeV) |
 | :----------: | --------: | --------------: | --------------: |
-| $c_0$ | $1.97185875\cdot 10^0$     | $-4.19708069\cdot 10^5$ | $1.13754387\cdot 10^3$     |
-| $c_1$ | $-4.90322067\cdot 10^{-1}$ | $1.09601902\cdot 10^6$  | $-1.13642381\cdot 10^3$    |
-| $c_2$ | $5.67984147\cdot 10^{-1}$  | $-1.24795701\cdot 10^6$ | $4.96588219\cdot 10^2$     |
-| $c_3$ | $-3.78515229\cdot 10^{-1}$ | $8.09428640\cdot 10^5$  | $-1.23563655\cdot 10^2$    |
-| $c_4$ | $1.96937857\cdot 10^{-1}$  | $-3.27064065\cdot 10^5$ | $1.91190645\cdot 10^1$     |
-| $c_5$ | $-6.69875048\cdot 10^{-2}$ | $8.42922022\cdot 10^4$  | $-1.88126582\cdot 10^0$    |
-| $c_6$ | $1.30714285\cdot 10^{-2}$  | $-1.35291466\cdot 10^4$ | $1.14850292\cdot 10^{-1}$  |
-| $c_7$ | $-1.31646064\cdot 10^{-3}$ | $1.23625151\cdot 10^3$  | $-3.97495919\cdot 10^{-3}$ |
-| $c_8$ | $5.29555090\cdot 10^{-5}$  | $-4.92348947\cdot 10^1$ | $5.96940644\cdot 10^{-5}$  |
+| $c_0$ | $1.97185875\cdot 10^0$     | $-2.21192313\cdot 10^5$ | $1.13754387\cdot 10^3$     |
+| $c_1$ | $-4.90322067\cdot 10^{-1}$ | $4.16349323\cdot 10^5$  | $-1.13642381\cdot 10^3$    |
+| $c_2$ | $5.67984147\cdot 10^{-1}$  | $-3.02334049\cdot 10^5$ | $4.96588219\cdot 10^2$     |
+| $c_3$ | $-3.78515229\cdot 10^{-1}$ | $9.22330794\cdot 10^4$  | $-1.23563655\cdot 10^2$    |
+| $c_4$ | $1.96937857\cdot 10^{-1}$  | $1.78846389\cdot 10^3$  | $1.91190645\cdot 10^1$     |
+| $c_5$ | $-6.69875048\cdot 10^{-2}$ | $-9.81957228\cdot 10^3$ | $-1.88126582\cdot 10^0$    |
+| $c_6$ | $1.30714285\cdot 10^{-2}$  | $2.97223872\cdot 10^3$  | $1.14850292\cdot 10^{-1}$  |
+| $c_7$ | $-1.31646064\cdot 10^{-3}$ | $-3.90203242\cdot 10^2$ | $-3.97495919\cdot 10^{-3}$ |
+| $c_8$ | $5.29555090\cdot 10^{-5}$  | $1.99344973\cdot 10^1$  | $5.96940644\cdot 10^{-5}$  |
 
 # What The Particle
 This section describes the game aspect of this project, including the different functionalities and levels available.
